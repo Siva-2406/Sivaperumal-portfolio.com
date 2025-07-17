@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Heart, ArrowUp } from 'lucide-react';
+import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import waveFooter from '@/assets/wave-footer.jpg';
 
@@ -67,7 +68,7 @@ export const Footer = () => {
                 Sivaperumal B
               </h3>
               <p className="font-accent text-xl text-emerald">
-                Software Developer
+                Growing Software Developer
               </p>
             </motion.div>
 
@@ -165,9 +166,9 @@ export const Footer = () => {
               className="flex justify-center space-x-6"
             >
               {[
-                { name: 'LinkedIn', href: 'https://linkedin.com/in/sivaperumal-b', color: 'sapphire' },
-                { name: 'GitHub', href: 'https://github.com/sivaperumal-b', color: 'purple' },
-                { name: 'Email', href: 'mailto:sivaperumal.dev@example.com', color: 'emerald' },
+                { name: 'LinkedIn', href: 'https://linkedin.com/in/sivaperumal-b', color: 'sapphire', icon: FaLinkedin },
+                { name: 'GitHub', href: 'https://github.com/sivaperumal-b', color: 'purple', icon: FaGithub },
+                { name: 'Email', href: 'mailto:sivaperumal.dev@example.com', color: 'emerald', icon: FaEnvelope },
               ].map((social, index) => (
                 <motion.a
                   key={social.name}
@@ -179,9 +180,12 @@ export const Footer = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 * index }}
                   whileHover={{ scale: 1.2, y: -5 }}
-                  className={`w-12 h-12 bg-gradient-to-br from-${social.color} to-${social.color}/60 rounded-full flex items-center justify-center text-white font-bold text-sm hover:shadow-xl transition-all duration-300`}
+                  className="w-14 h-14 rounded-full flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 glass-card"
+                  style={{
+                    background: `linear-gradient(135deg, hsl(var(--${social.color})), hsl(var(--${social.color}) / 0.6))`
+                  }}
                 >
-                  {social.name[0]}
+                  <social.icon className="w-6 h-6" />
                 </motion.a>
               ))}
             </motion.div>

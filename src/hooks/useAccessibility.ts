@@ -19,11 +19,20 @@ export const useAccessibility = () => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('high-contrast', isHighContrast);
-    document.documentElement.classList.toggle('reduce-motion', reducedMotion);
+    const root = document.documentElement;
     
+    // Apply accessibility classes
+    root.classList.toggle('high-contrast', isHighContrast);
+    root.classList.toggle('reduce-motion', reducedMotion);
+    
+    // Save to localStorage
     localStorage.setItem('highContrast', isHighContrast.toString());
     localStorage.setItem('reducedMotion', reducedMotion.toString());
+    
+    // Apply ARIA attributes for screen readers
+    root.setAttribute('aria-live', 'polite');
+    root.setAttribute('data-high-contrast', isHighContrast.toString());
+    root.setAttribute('data-reduced-motion', reducedMotion.toString());
   }, [isHighContrast, reducedMotion]);
 
   const toggleHighContrast = () => setIsHighContrast(prev => !prev);

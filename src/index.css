@@ -109,23 +109,47 @@ All colors MUST be HSL for perfect glassmorphism effects.
   }
 
   .light {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 240 25% 98%;
+    --foreground: 240 10% 8%;
     
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 240 10% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 240 10% 8%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 240 10% 95%;
+    --muted-foreground: 240 10% 40%;
 
-    --glass-bg: 0 0% 100%;
-    --glass-border: 240 5.9% 90%;
+    --glass-bg: 255 255% 98%;
+    --glass-border: 240 10% 85%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 240 10% 85%;
+    --input: 240 10% 85%;
+
+    /* Enhanced light mode shadows */
+    --shadow-light: 0 4px 20px hsl(240 10% 80% / 0.15);
+    --shadow-card: 0 8px 40px hsl(240 10% 70% / 0.12);
+  }
+
+  /* High contrast mode */
+  .high-contrast {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 90%;
+    --border: 0 0% 20%;
+    --glass-bg: 0 0% 5%;
+    --glass-border: 0 0% 30%;
+  }
+
+  /* Reduced motion */
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -148,18 +172,36 @@ All colors MUST be HSL for perfect glassmorphism effects.
     background: hsl(var(--glass-bg) / 0.1);
     backdrop-filter: blur(20px);
     border: 1px solid hsl(var(--glass-border) / 0.2);
-    box-shadow: 0 8px 32px hsl(var(--glass-shadow) / 0.1);
+    box-shadow: var(--shadow-light, 0 8px 32px hsl(var(--glass-shadow) / 0.1));
   }
 
   .glass-card {
     @apply glass rounded-2xl;
     background: hsl(var(--glass-bg) / 0.05);
+    box-shadow: var(--shadow-card, 0 8px 32px hsl(var(--glass-shadow) / 0.15));
   }
 
   .glass-strong {
     background: hsl(var(--glass-bg) / 0.2);
     backdrop-filter: blur(40px);
     border: 1px solid hsl(var(--glass-border) / 0.3);
+    box-shadow: var(--shadow-card, 0 12px 40px hsl(var(--glass-shadow) / 0.2));
+  }
+
+  /* Light mode specific improvements */
+  .light .glass {
+    background: hsl(255 255% 100% / 0.8);
+    border: 1px solid hsl(var(--glass-border) / 0.4);
+  }
+
+  .light .glass-card {
+    background: hsl(255 255% 100% / 0.9);
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+  }
+
+  .light .glass-strong {
+    background: hsl(255 255% 100% / 0.95);
+    border: 1px solid hsl(var(--glass-border) / 0.6);
   }
 
   /* Typography */

@@ -1,38 +1,40 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Mail, Phone, Linkedin, Github, MapPin, MessageCircle } from 'lucide-react';
+import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import emailjs from 'emailjs-com';
 
 const contactMethods = [
   {
     name: "Email",
     value: "sivaperumal.dev@example.com",
-    icon: Mail,
+    icon: FaEnvelope,
     color: "purple",
     href: "mailto:sivaperumal.dev@example.com"
   },
   {
     name: "Phone",
     value: "+91 9876543210",
-    icon: Phone,
+    icon: FaPhone,
     color: "emerald",
     href: "tel:+919876543210"
   },
   {
     name: "LinkedIn",
     value: "sivaperumal-b",
-    icon: Linkedin,
+    icon: FaLinkedin,
     color: "sapphire",
     href: "https://linkedin.com/in/sivaperumal-b"
   },
   {
     name: "GitHub",
     value: "sivaperumal-b",
-    icon: Github,
+    icon: FaGithub,
     color: "gold",
     href: "https://github.com/sivaperumal-b"
   }
@@ -55,25 +57,111 @@ export const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
+
+  // Email validation
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Form validation
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Full name must be at least 2 characters';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.reason) {
+      newErrors.reason = 'Please select a reason for contacting';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields correctly.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Send email to owner
+      await emailjs.send(
+        'service_portfolio', // You'll need to replace with your EmailJS service ID
+        'template_contact', // You'll need to replace with your EmailJS template ID
+        {
+          from_name: formData.fullName,
+          from_email: formData.email,
+          reason: formData.reason,
+          message: formData.message,
+          to_email: 'sivaperumal.dev@example.com'
+        },
+        'your_public_key' // You'll need to replace with your EmailJS public key
+      );
+
+      // Send confirmation email to user
+      await emailjs.send(
+        'service_portfolio',
+        'template_confirmation', // You'll need to create a confirmation template
+        {
+          to_name: formData.fullName,
+          to_email: formData.email,
+          message: 'Thank you for contacting me! I have received your message and will get back to you soon.'
+        },
+        'your_public_key'
+      );
+
       toast({
         title: "Message Sent! 🎉",
         description: "Thank you for reaching out! I'll get back to you soon.",
       });
+      
       setFormData({ fullName: '', email: '', reason: '', message: '' });
+      setErrors({});
+    } catch (error) {
+      console.error('Email send error:', error);
+      toast({
+        title: "Send Failed",
+        description: "There was an issue sending your message. Please try again or use direct email.",
+        variant: "destructive"
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
   };
 
   return (
@@ -150,8 +238,11 @@ export const ContactSection = () => {
                     value={formData.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
                     required
-                    className="glass border-purple/30 focus:border-purple"
+                    className={`glass border-purple/30 focus:border-purple ${errors.fullName ? 'border-red-500' : ''}`}
                   />
+                  {errors.fullName && (
+                    <p className="text-red-500 text-xs font-accent">{errors.fullName}</p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -165,8 +256,11 @@ export const ContactSection = () => {
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     required
-                    className="glass border-purple/30 focus:border-purple"
+                    className={`glass border-purple/30 focus:border-purple ${errors.email ? 'border-red-500' : ''}`}
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs font-accent">{errors.email}</p>
+                  )}
                 </div>
 
                 {/* Reason */}
@@ -179,7 +273,7 @@ export const ContactSection = () => {
                     onValueChange={(value) => handleInputChange('reason', value)}
                     required
                   >
-                    <SelectTrigger className="glass border-purple/30 focus:border-purple">
+                    <SelectTrigger className={`glass border-purple/30 focus:border-purple ${errors.reason ? 'border-red-500' : ''}`}>
                       <SelectValue placeholder="Select a reason" />
                     </SelectTrigger>
                     <SelectContent className="glass-strong">
@@ -190,6 +284,9 @@ export const ContactSection = () => {
                       ))}
                     </SelectContent>
                   </Select>
+                  {errors.reason && (
+                    <p className="text-red-500 text-xs font-accent">{errors.reason}</p>
+                  )}
                 </div>
 
                 {/* Message */}
@@ -203,8 +300,11 @@ export const ContactSection = () => {
                     onChange={(e) => handleInputChange('message', e.target.value)}
                     required
                     rows={6}
-                    className="glass border-purple/30 focus:border-purple resize-none"
+                    className={`glass border-purple/30 focus:border-purple resize-none ${errors.message ? 'border-red-500' : ''}`}
                   />
+                  {errors.message && (
+                    <p className="text-red-500 text-xs font-accent">{errors.message}</p>
+                  )}
                 </div>
 
                 {/* Submit Button */}
@@ -261,7 +361,9 @@ export const ContactSection = () => {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center space-x-4 p-4 glass hover:glass-strong rounded-xl transition-all duration-300 group"
                   >
-                    <div className={`w-12 h-12 bg-gradient-to-br from-${method.color} to-${method.color}/60 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300" style={{
+                      background: `linear-gradient(135deg, hsl(var(--${method.color})), hsl(var(--${method.color}) / 0.6))`
+                    }}>
                       <method.icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -277,24 +379,6 @@ export const ContactSection = () => {
               </div>
             </div>
 
-            {/* Quick Response */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="glass-card p-6 text-center"
-            >
-              <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto mb-4 animate-glow">
-                <Mail className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="font-heading text-xl font-bold text-foreground mb-2">
-                Quick Response
-              </h4>
-              <p className="font-body text-muted-foreground">
-                I typically respond within 24 hours during weekdays
-              </p>
-            </motion.div>
           </motion.div>
         </div>
       </div>

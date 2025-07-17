@@ -12,26 +12,41 @@ export const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden scroll-snap-start">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-hero opacity-10" />
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden scroll-snap-start bg-gradient-to-br from-background via-background to-purple/5">
+      {/* Enhanced Background Effects */}
+      <div className="absolute inset-0 bg-gradient-hero opacity-5" />
+      
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--purple)) 1px, transparent 1px)`,
+          backgroundSize: '40px 40px'
+        }} />
+      </div>
+
+      {/* Floating Particles */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
+        {[...Array(40)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-purple/20 rounded-full"
+            className="absolute rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              width: `${4 + Math.random() * 8}px`,
+              height: `${4 + Math.random() * 8}px`,
+              background: `linear-gradient(45deg, hsl(var(--purple)), hsl(var(--sapphire)))`
             }}
             animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
+              y: [0, -40, 0],
+              x: [0, 20, 0],
+              opacity: [0.1, 0.6, 0.1],
+              scale: [0.5, 1, 0.5],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 4 + Math.random() * 3,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: Math.random() * 3,
             }}
           />
         ))}
@@ -74,7 +89,7 @@ export const HeroSection = () => {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="font-accent text-xl lg:text-2xl text-sapphire"
               >
-                Software Developer
+                Growing Software Developer
               </motion.h2>
             </div>
 

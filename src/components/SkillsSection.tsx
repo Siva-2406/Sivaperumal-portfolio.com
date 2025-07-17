@@ -54,14 +54,14 @@ const SkillBar = ({ skill, index, color }: { skill: any, index: number, color: s
                 strokeWidth="2"
               />
               <motion.path
-                className={`text-${color}`}
                 d="M18 2.0845
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
                 fill="none"
-                stroke="currentColor"
+                stroke={`hsl(var(--${color}))`}
                 strokeWidth="2"
                 strokeDasharray="100"
+                strokeLinecap="round"
                 initial={{ strokeDashoffset: 100 }}
                 whileInView={{ strokeDashoffset: 100 - level }}
                 viewport={{ once: true }}
@@ -69,7 +69,7 @@ const SkillBar = ({ skill, index, color }: { skill: any, index: number, color: s
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className={`text-${color} font-bold text-sm`}>{level}%</span>
+              <span className="font-bold text-sm" style={{ color: `hsl(var(--${color}))` }}>{level}%</span>
             </div>
           </div>
         );
@@ -78,8 +78,9 @@ const SkillBar = ({ skill, index, color }: { skill: any, index: number, color: s
         return (
           <div className="relative w-full h-8 bg-muted/20 rounded-full overflow-hidden">
             <motion.div
-              className={`h-full bg-gradient-to-r from-${color} to-${color}/60`}
+              className="h-full"
               style={{
+                background: `linear-gradient(to right, hsl(var(--${color})), hsl(var(--${color}) / 0.6))`,
                 clipPath: "polygon(0% 20%, 10% 80%, 20% 20%, 30% 80%, 40% 20%, 50% 80%, 60% 20%, 70% 80%, 80% 20%, 90% 80%, 100% 20%, 100% 100%, 0% 100%)"
               }}
               initial={{ width: 0 }}
@@ -97,14 +98,13 @@ const SkillBar = ({ skill, index, color }: { skill: any, index: number, color: s
         return (
           <div className="relative w-full h-6 bg-muted/20 rounded-full overflow-hidden">
             <motion.div
-              className={`h-full bg-${color} relative`}
+              className="h-full relative"
               initial={{ width: 0 }}
               whileInView={{ width: `${level}%` }}
               viewport={{ once: true }}
               transition={{ duration: 1.5, delay: index * 0.1 }}
               style={{
-                background: `linear-gradient(90deg, hsl(var(--${color})), hsl(var(--${color})) 50%, transparent 50%)`,
-                backgroundSize: '20px 100%',
+                background: `repeating-linear-gradient(90deg, hsl(var(--${color})) 0px, hsl(var(--${color})) 10px, hsl(var(--${color}) / 0.5) 10px, hsl(var(--${color}) / 0.5) 20px)`,
                 animation: 'pulse-bg 2s infinite'
               }}
             />
