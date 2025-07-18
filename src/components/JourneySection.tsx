@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { GraduationCap, Building, Briefcase, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import schoolImage from '@/assets/school-journey.jpg';
-import academyImage from '@/assets/academy-journey.jpg';
-import strivelabsImage from '@/assets/strivelabs-journey.jpg';
+import schoolImage from '@/assets/school-journey.png';
+import academyImage from '@/assets/academy-journey.png';
+import strivelabsImage from '@/assets/strivelabs-journey.png';
 
 const journeySteps = [
   {
@@ -25,7 +25,7 @@ const journeySteps = [
     description: "Joined Freshworks Academy where I learned the basics of front-end development.",
     image: academyImage,
     skills: ["HTML", "CSS", "Git", "Basics of JavaScript"],
-    color: "sapphire"
+    color: "gold"
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const journeySteps = [
     achievements: "Project delivery, UI development, and teamwork experience",
     image: strivelabsImage,
     skills: ["React", "TypeScript", "Team Collaboration", "Project Management"],
-    color: "purple"
+    color: "crimson"
   }
 ];
 
