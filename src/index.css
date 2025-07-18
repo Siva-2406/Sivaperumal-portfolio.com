@@ -65,9 +65,9 @@ All colors MUST be HSL for perfect glassmorphism effects.
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     /* Typography Scale */
-    --font-heading: 'Overlock', cursive;
-    --font-body: 'Electrolize', monospace;
-    --font-accent: 'Space Mono', monospace;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-accent: 'JetBrains Mono', monospace;
 
     --sidebar-background: 0 0% 98%;
 

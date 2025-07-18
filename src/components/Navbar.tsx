@@ -58,23 +58,29 @@ export const Navbar = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-1 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'glass-strong' : 'glass'
+        className={`fixed top-4 left-4 right-4 z-40 transition-all duration-500 rounded-3xl backdrop-blur-2xl ${
+          isScrolled 
+            ? 'glass-strong shadow-2xl border-2 border-emerald/20' 
+            : 'glass border border-gold/30'
         }`}
       >
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-8 py-5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="font-heading text-2xl font-bold gradient-text-gold"
+              className="relative"
             >
-              Portfolio
+              <div className="font-heading text-3xl font-bold gradient-text-gold relative">
+                <span className="relative z-10">SB</span>
+                <div className="absolute inset-0 bg-gradient-primary blur-lg opacity-30 animate-pulse" />
+              </div>
+              <div className="absolute -inset-2 bg-gradient-primary rounded-full opacity-20 blur-xl animate-glow" />
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-2">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}
@@ -82,25 +88,30 @@ export const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(item.href)}
-                  className={`font-body text-sm transition-all duration-300 hover:text-emerald relative ${
+                  className={`relative px-4 py-2 rounded-2xl font-body text-sm font-medium transition-all duration-500 group ${
                     activeSection === item.href.slice(1)
-                      ? 'text-emerald'
-                      : 'text-foreground/80'
+                      ? 'text-foreground bg-gradient-primary shadow-lg scale-105'
+                      : 'text-foreground/70 hover:text-foreground hover:bg-glass-bg/30'
                   }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {item.name}
+                  <span className="relative z-10">{item.name}</span>
                   {activeSection === item.href.slice(1) && (
                     <motion.div
-                      layoutId="activeIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald rounded-full"
+                      layoutId="activeNavBg"
+                      className="absolute inset-0 bg-gradient-primary rounded-2xl"
+                      style={{ borderRadius: '1rem' }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
                 </motion.button>
               ))}
             </div>
 
             {/* Controls */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -108,14 +119,20 @@ export const Navbar = () => {
                       variant="ghost"
                       size="icon"
                       onClick={toggleTheme}
-                      className="glass hover:glass-strong"
+                      className="glass hover:glass-strong rounded-2xl w-12 h-12 relative group overflow-hidden"
                       aria-label="Toggle theme"
                     >
-                      {theme === 'dark' ? (
-                        <Sun className="h-5 w-5" />
-                      ) : (
-                        <Moon className="h-5 w-5" />
-                      )}
+                      <motion.div
+                        animate={{ rotate: theme === 'dark' ? 0 : 180 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        {theme === 'dark' ? (
+                          <Sun className="h-5 w-5 text-gold" />
+                        ) : (
+                          <Moon className="h-5 w-5 text-emerald" />
+                        )}
+                      </motion.div>
+                      <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -129,14 +146,20 @@ export const Navbar = () => {
                       variant="ghost"
                       size="icon"
                       onClick={toggleHighContrast}
-                      className="glass hover:glass-strong"
+                      className="glass hover:glass-strong rounded-2xl w-12 h-12 relative group overflow-hidden"
                       aria-label="Toggle accessibility"
                     >
-                      {isHighContrast ? (
-                        <EyeOff className="h-5 w-5" />
-                      ) : (
-                        <Eye className="h-5 w-5" />
-                      )}
+                      <motion.div
+                        animate={{ scale: isHighContrast ? 1.2 : 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {isHighContrast ? (
+                          <EyeOff className="h-5 w-5 text-crimson" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-emerald" />
+                        )}
+                      </motion.div>
+                      <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -156,10 +179,16 @@ export const Navbar = () => {
                         link.download = 'Sivaperumal_B_Resume.pdf';
                         link.click();
                       }}
-                      className="glass hover:glass-strong"
+                      className="glass hover:glass-strong rounded-2xl w-12 h-12 relative group overflow-hidden"
                       aria-label="Download resume"
                     >
-                      <Download className="h-5 w-5" />
+                      <motion.div
+                        whileHover={{ y: -2 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Download className="h-5 w-5 text-gold" />
+                      </motion.div>
+                      <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -173,14 +202,20 @@ export const Navbar = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden glass hover:glass-strong"
+                className="lg:hidden glass hover:glass-strong rounded-2xl w-12 h-12 relative group overflow-hidden"
                 aria-label="Toggle menu"
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
+                <motion.div
+                  animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isMobileMenuOpen ? (
+                    <X className="h-5 w-5 text-crimson" />
+                  ) : (
+                    <Menu className="h-5 w-5 text-emerald" />
+                  )}
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" />
               </Button>
             </div>
           </div>
