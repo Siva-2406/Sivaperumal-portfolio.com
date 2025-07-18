@@ -53,13 +53,9 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				// Portfolio Color Palette
-				purple: 'hsl(var(--purple))',
 				gold: 'hsl(var(--gold))',
 				emerald: 'hsl(var(--emerald))',
 				crimson: 'hsl(var(--crimson))',
-				sapphire: 'hsl(var(--sapphire))',
-				orange: 'hsl(var(--orange))',
-				'electric-blue': 'hsl(var(--electric-blue))',
 				// Glassmorphism
 				'glass-bg': 'hsl(var(--glass-bg))',
 				'glass-border': 'hsl(var(--glass-border))',
@@ -113,8 +109,8 @@ export default {
 					'50%': { transform: 'translateY(-20px)' }
 				},
 				'glow': {
-					'0%, 100%': { boxShadow: '0 0 20px hsl(var(--purple) / 0.3)' },
-					'50%': { boxShadow: '0 0 40px hsl(var(--purple) / 0.6)' }
+					'0%, 100%': { boxShadow: '0 0 20px hsl(var(--emerald) / 0.3)' },
+					'50%': { boxShadow: '0 0 40px hsl(var(--emerald) / 0.6)' }
 				},
 				'pulse-ring': {
 					'0%': { transform: 'scale(0.33)', opacity: '1' },

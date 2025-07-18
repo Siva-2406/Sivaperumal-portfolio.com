@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, Download, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-profile.jpg';
+import heroImage from '@/assets/hero-profile-cartoon.gif';
 
 export const HeroSection = () => {
   const scrollToNext = () => {
@@ -12,14 +12,14 @@ export const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden scroll-snap-start bg-gradient-to-br from-background via-background to-purple/5">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden scroll-snap-start bg-gradient-to-br from-background via-background to-emerald/5">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0 bg-gradient-hero opacity-5" />
       
       {/* Grid Pattern Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--purple)) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--emerald)) 1px, transparent 1px)`,
           backgroundSize: '40px 40px'
         }} />
       </div>
@@ -35,7 +35,7 @@ export const HeroSection = () => {
               top: `${Math.random() * 100}%`,
               width: `${4 + Math.random() * 8}px`,
               height: `${4 + Math.random() * 8}px`,
-              background: `linear-gradient(45deg, hsl(var(--purple)), hsl(var(--sapphire)))`
+              background: `linear-gradient(45deg, hsl(var(--emerald)), hsl(var(--gold)))`
             }}
             animate={{
               y: [0, -40, 0],
@@ -87,7 +87,7 @@ export const HeroSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="font-accent text-xl lg:text-2xl text-sapphire"
+                className="font-accent text-xl lg:text-2xl text-emerald"
               >
                 Growing Software Developer
               </motion.h2>
@@ -101,7 +101,7 @@ export const HeroSection = () => {
               className="flex flex-wrap gap-4"
             >
               <Button 
-                className="glass-strong bg-gradient-primary hover:opacity-90 text-white border-0 px-8 py-6 text-lg font-semibold animate-glow"
+                className="glass-strong bg-gradient-secondary hover:opacity-90 text-white border-0 px-8 py-6 text-lg font-semibold animate-glow"
                 onClick={() => {
                   const contactSection = document.getElementById('contact');
                   if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -113,7 +113,13 @@ export const HeroSection = () => {
               
               <Button 
                 variant="outline" 
-                className="glass border-purple/50 hover:bg-purple/10 px-8 py-6 text-lg"
+                className="glass border-emerald/50 hover:bg-emerald/10 px-8 py-6 text-lg"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/resume-sivaperumal.pdf';
+                  link.download = 'Sivaperumal_B_Resume.pdf';
+                  link.click();
+                }}
               >
                 <Download className="mr-2 h-5 w-5" />
                 Download Resume
@@ -133,7 +139,7 @@ export const HeroSection = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -top-10 -right-10 w-20 h-20 border-2 border-purple/30 rounded-full"
+                className="absolute -top-10 -right-10 w-20 h-20 border-2 border-emerald/30 rounded-full"
               />
               <motion.div
                 animate={{ rotate: -360 }}
@@ -154,7 +160,7 @@ export const HeroSection = () => {
                 />
                 
                 {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-primary opacity-20 rounded-2xl blur-xl -z-10" />
+                <div className="absolute inset-0 bg-gradient-secondary opacity-20 rounded-2xl blur-xl -z-10" />
               </motion.div>
             </div>
           </motion.div>
@@ -169,7 +175,7 @@ export const HeroSection = () => {
         >
           <motion.button
             onClick={scrollToNext}
-            className="flex flex-col items-center space-y-2 text-muted-foreground hover:text-purple transition-colors duration-300"
+            className="flex flex-col items-center space-y-2 text-muted-foreground hover:text-emerald transition-colors duration-300"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
